@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "328553701149",
+    "firebase_url": "https://sannacodetest-e95ee.firebaseio.com",
+    "project_id": "sannacodetest-e95ee",
+    "storage_bucket": "sannacodetest-e95ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328553701149:android:6802d7a1a5136c73",
+        "android_client_info": {
+          "package_name": "com.advrtizr.sannacodetest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328553701149-ucdrul11kogoaqu43mad782c6s8v4itd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.advrtizr.sannacodetest",
+            "certificate_hash": "5d89220cabe3b60380ae315b112fb3722f68cb2e"
+          }
+        },
+        {
+          "client_id": "328553701149-lco1a6eii5b6qbp4hve96odlnm4r93bn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYJANFA92JHyhvlHgSMDD4viakDlPb92U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328553701149-lco1a6eii5b6qbp4hve96odlnm4r93bn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

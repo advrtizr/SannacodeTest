@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SannacodeTest</string>
+    <string name="title_activity_contacts">ContactsActivity</string>
+    <string name="entry_name">Имя</string>
+    <string name="last_name">Last name</string>
+    <string name="name">Name</string>
+    <string name="phoneNumber">Phone number</string>
+    <string name="email">E-mail</string>
+    <string name="submit">Submit</string>
+    <string name="menu_log_out">Log out</string>
+    <string name="loading">Loading...</string>
+</resources>
