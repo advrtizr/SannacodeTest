@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.advrtizr.sannacodetest.view.ContactsActivity">
 
-    <!--<item-->
-        <!--android:id="@+id/menu_settings"-->
-        <!--android:title="@string/menu_settings" />-->
-    <!--<item-->
-        <!--android:id="@+id/menu_settings"-->
-        <!--android:title="@string/menu_settings" />-->
-    <!--<item-->
-        <!--android:id="@+id/menu_settings"-->
-        <!--android:title="@string/menu_settings" />-->
     <item
-        android:id="@+id/menu_log_out"
-        android:title="@string/menu_log_out" />
+        android:id="@+id/menu_sort_by_name"
+        android:title="@string/menu_sort_by_name" />
+    <item
+        android:id="@+id/menu_sort_by_last_name"
+        android:title="@string/menu_sort_by_last_name" />
+    <item
+        android:id="@+id/menu_sort_by_phone"
+        android:title="@string/menu_sort_by_phone" />
+    <item
+        android:id="@+id/menu_sort_by_email"
+        android:title="@string/menu_sort_by_email" />
 
 </menu>

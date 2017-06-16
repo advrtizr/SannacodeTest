@@ -4,5 +4,5 @@ import com.advrtizr.sannacodetest.model.Contact;
 
 public interface ContactsPresenter {
     void addNewContact(Contact contact, String userId);
-    void showContacts(String userId);
+    void showContacts(String userId, String sort);
 }

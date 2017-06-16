@@ -3,7 +3,6 @@ package com.advrtizr.sannacodetest.view;
 import android.app.ProgressDialog;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
-
 import com.advrtizr.sannacodetest.R;
 
 public class BaseActivity extends AppCompatActivity {

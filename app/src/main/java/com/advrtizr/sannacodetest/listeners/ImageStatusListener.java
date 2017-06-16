@@ -1,4 +1,4 @@
-package com.advrtizr.sannacodetest.model;
+package com.advrtizr.sannacodetest.listeners;
 
 import android.graphics.Bitmap;
 

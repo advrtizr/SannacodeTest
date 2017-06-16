@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.advrtizr.sannacodetest.R;
 import java.util.List;
-import butterknife.ButterKnife;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
 
@@ -17,7 +16,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
     public ContactAdapter(Context context, ContactBook contactBook) {
         this.context = context;
-        contactList = contactBook.getContact();
+        contactList = contactBook.getContactList();
     }
 
     @Override
@@ -28,55 +27,31 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
     @Override
     public void onBindViewHolder(ContactViewHolder holder, int position) {
+        // setting data to list item
         Contact contact = contactList.get(position);
         holder.contactName.setText(contact.getName());
-        holder.contactLastname.setText(contact.getLastName());
+        holder.contactLastName.setText(contact.getLastName());
         holder.contactPhone.setText(contact.getPhoneNumber());
         holder.contactEmail.setText(contact.getEmail());
     }
-
 
     @Override
     public int getItemCount() {
         return contactList.size();
     }
 
-
     class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView contactName;
-        TextView contactLastname;
+        TextView contactLastName;
         TextView contactPhone;
         TextView contactEmail;
 
-
         ContactViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(itemView);
-            contactName = (TextView) itemView.findViewById(R.id.tv_contactName);
-            contactLastname = (TextView) itemView.findViewById(R.id.tv_contactLastname);
-            contactPhone= (TextView) itemView.findViewById(R.id.tv_contactPhone);
-            contactEmail = (TextView) itemView.findViewById(R.id.tv_contactEmail);
+            contactName = (TextView) itemView.findViewById(R.id.tv_contact_name);
+            contactLastName = (TextView) itemView.findViewById(R.id.tv_contact_last_name);
+            contactPhone= (TextView) itemView.findViewById(R.id.tv_contact_phone);
+            contactEmail = (TextView) itemView.findViewById(R.id.tv_contact_email);
         }
-
-//        @Override
-//        public void onClick(View v) {
-//            switch (v.getId()) {
-//                case R.id.ib_refresh:
-//                    presenters.get(getAdapterPosition()).loadWeather();
-//                    break;
-//                case R.id.ib_delete:
-//                    String key = keys.get(getAdapterPosition());
-//                    if (key.equals("")) {
-//                        break;
-//                    }
-//                    locationPreferences.edit().remove(key).apply();
-//                    presenters.remove(getAdapterPosition());
-//                    String selection = WeatherDBHelper._ID + " LIKE ?";
-//                    String[] selectionArgs = { String.valueOf(getAdapterPosition()) };
-//                    database.delete(WeatherDBHelper.TABLE_NAME, selection, selectionArgs);
-//                    notifyItemRemoved(getAdapterPosition());
-//                    break;
-//            }
-//        }
     }
 }

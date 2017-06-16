@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/filled_rectangle_round_corners"
         android:text="@string/submit"
         android:textColor="@color/colorWhite"
         android:textSize="16sp" />
