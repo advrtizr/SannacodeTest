@@ -3,7 +3,6 @@ package com.advrtizr.sannacodetest.view;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -11,30 +10,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.advrtizr.sannacodetest.Constants;
 import com.advrtizr.sannacodetest.R;
-import com.advrtizr.sannacodetest.model.ImageLoadTask;
 import com.advrtizr.sannacodetest.listeners.ImageStatusListener;
+import com.advrtizr.sannacodetest.model.ImageLoadTask;
+import com.advrtizr.sannacodetest.presenter.LoginPresenter;
+import com.advrtizr.sannacodetest.presenter.LoginPresenterImpl;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LoginActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener, ImageStatusListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, ImageStatusListener, LoginView {
 
-    private FirebaseAuth mAuth;
-    private GoogleApiClient mGoogleApiClient;
     private TextView userName;
     private TextView signInAsk;
     private CircleImageView userImage;
@@ -43,6 +29,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private Button goToContactsBtn;
     private LinearLayout userContainer;
     private LinearLayout signInContainer;
+    private LoginPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,116 +55,36 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         signOutBtn.setOnClickListener(this);
         goToContactsBtn.setOnClickListener(this);
 
-        // initializing client
-        initializeClient();
-
-        // initializing auth
-        mAuth = FirebaseAuth.getInstance();
-
-    }
-
-    private void initializeClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, configureGSO())
-                .build();
-    }
-
-    private GoogleSignInOptions configureGSO() {
-        // [START config_sign in]
-        // Configure Google Sign In
-        return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        // [END config_sign in]
+        // initializing presenter
+        presenter = new LoginPresenterImpl(this);
     }
 
     // [START on_start_check_user]
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        // сheck if user is signed in (non-null) and update UI accordingly
+        presenter.requestCurrentUser();
     }
     // [END on_start_check_user]
 
-    // [START onactivityresult]
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == Constants.RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = result.getSignInAccount();
-                firebaseAuthWithGoogle(account);
-            } else {
-                // Google Sign In failed, update UI appropriately
-                // [START_EXCLUDE]
-                updateUI(null);
-                // [END_EXCLUDE]
-            }
-        }
-    }
-    // [END onactivityresult]
-
-    // [START auth_with_google]
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        // [START_EXCLUDE silent]
-        showProgressDialog();
-        // [END_EXCLUDE]
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                        // [START_EXCLUDE]
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
-    // [END auth_with_google]
-
-    // [START sign in]
     private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        // retrieving google client object for intent
+        GoogleApiClient googleApiClient = presenter.requestGoogleApiClient();
+        // start sign in
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, Constants.RC_SIGN_IN);
     }
 
-    // [END sign in]
-
-    // [START sign out ]
-    private void signOut() {
-        // Firebase sign out
-        mAuth.signOut();
-
-        // Google sign out
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        updateUI(null);
-                    }
-                });
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        presenter.passIntentResult(requestCode, data);
     }
-    // [END sign out]
 
-    private void updateUI(FirebaseUser user) {
+    @Override
+    public void updateUI(FirebaseUser user) {
         hideProgressDialog();
         // making views visible or not, depending on user state
         if (user != null) {
@@ -199,10 +106,18 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+    public void showProgress() {
+        showProgressDialog();
+    }
+
+    @Override
+    public void hideProgress() {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -211,7 +126,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
         if (id == R.id.btn_sign_in) {
             signIn();
         } else if (id == R.id.btn_sign_out) {
-            signOut();
+            presenter.beginSignOut();
         } else if (id == R.id.btn_start) {
             startActivity(new Intent(LoginActivity.this, ContactsActivity.class));
         }
@@ -219,6 +134,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
 
     @Override
     public void onImageDownloaded(Bitmap bitmap) {
+        // callback from image load task
         userImage.setImageBitmap(bitmap);
     }
 }

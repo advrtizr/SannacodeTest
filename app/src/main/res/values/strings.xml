@@ -27,4 +27,6 @@
     <string name="title">Title</string>
     <string name="hello_phrase">Антон Лабенский</string>
     <string name="entry_form_warning">Please fill all required fields</string>
+    <string name="google_play_error">Google Play Services error.</string>
+    <string name="auth_failed">Authentication failed.</string>
 </resources>
