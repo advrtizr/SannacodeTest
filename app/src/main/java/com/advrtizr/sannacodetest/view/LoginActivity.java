@@ -17,34 +17,28 @@ import com.advrtizr.sannacodetest.presenter.LoginPresenterImpl;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseUser;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, ImageStatusListener, LoginView {
 
-    private TextView userName;
-    private TextView signInAsk;
-    private CircleImageView userImage;
-    private Button signInBtn;
-    private Button signOutBtn;
-    private Button goToContactsBtn;
-    private LinearLayout userContainer;
-    private LinearLayout signInContainer;
+    @BindView(R.id.tv_user) TextView userName;
+    @BindView(R.id.tv_main_screen_ask) TextView signInAsk;
+    @BindView(R.id.civ_user_image) CircleImageView userImage;
+    @BindView(R.id.btn_sign_in) Button signInBtn;
+    @BindView(R.id.btn_sign_out) Button signOutBtn;
+    @BindView(R.id.btn_start) Button goToContactsBtn;
+    @BindView(R.id.user_container) LinearLayout userContainer;
+    @BindView(R.id.sign_in_container) LinearLayout signInContainer;
     private LoginPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // views
-        userName = (TextView) findViewById(R.id.tv_user);
-        signInAsk = (TextView) findViewById(R.id.tv_main_screen_ask);
-        userImage = (CircleImageView) findViewById(R.id.civ_user_image);
-        signInBtn = (Button) findViewById(R.id.btn_sign_in);
-        signOutBtn = (Button) findViewById(R.id.btn_sign_out);
-        goToContactsBtn = (Button) findViewById(R.id.btn_start);
-        userContainer = (LinearLayout) findViewById(R.id.user_container);
-        signInContainer = (LinearLayout) findViewById(R.id.sign_in_container);
+        ButterKnife.bind(this);
 
         // setting default visibility state
         userContainer.setVisibility(View.INVISIBLE);

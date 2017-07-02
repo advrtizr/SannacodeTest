@@ -26,13 +26,15 @@ import com.advrtizr.sannacodetest.listeners.ImageStatusListener;
 import com.advrtizr.sannacodetest.presenter.ContactsPresenter;
 import com.advrtizr.sannacodetest.presenter.ContactsPresenterImpl;
 import com.google.firebase.auth.FirebaseAuth;
+
+import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ContactsActivity extends AppCompatActivity implements ContactsView, ImageStatusListener {
 
+    @BindView(R.id.rw_contactsList) RecyclerView recyclerView;
     private FirebaseAuth firebaseAuth;
     private ContactsPresenter presenter;
-    private RecyclerView recyclerView;
     private String userId;
 
     @Override
@@ -41,8 +43,6 @@ public class ContactsActivity extends AppCompatActivity implements ContactsView,
         setContentView(R.layout.activity_contacts);
         // getting firebase instance
         firebaseAuth = FirebaseAuth.getInstance();
-        // views
-        recyclerView = (RecyclerView) findViewById(R.id.rw_contactsList);
         // toolbar initialization
         initializeToolbar();
         // user id initialization

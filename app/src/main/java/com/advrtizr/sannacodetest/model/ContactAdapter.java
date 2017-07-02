@@ -9,6 +9,9 @@ import android.widget.TextView;
 import com.advrtizr.sannacodetest.R;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
 
     private Context context;
@@ -41,17 +44,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     }
 
     class ContactViewHolder extends RecyclerView.ViewHolder {
-        TextView contactName;
-        TextView contactLastName;
-        TextView contactPhone;
-        TextView contactEmail;
+        @BindView(R.id.tv_contact_name) TextView contactName;
+        @BindView(R.id.tv_contact_last_name) TextView contactLastName;
+        @BindView(R.id.tv_contact_phone) TextView contactPhone;
+        @BindView(R.id.tv_contact_email) TextView contactEmail;
 
         ContactViewHolder(View itemView) {
             super(itemView);
-            contactName = (TextView) itemView.findViewById(R.id.tv_contact_name);
-            contactLastName = (TextView) itemView.findViewById(R.id.tv_contact_last_name);
-            contactPhone= (TextView) itemView.findViewById(R.id.tv_contact_phone);
-            contactEmail = (TextView) itemView.findViewById(R.id.tv_contact_email);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
